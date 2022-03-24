@@ -1,0 +1,1 @@
+xcrun swiftc -emit-silgen swift_dynamic.swift | xcrun swift-demangle > a.sil

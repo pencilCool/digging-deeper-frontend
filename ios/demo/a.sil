@@ -1,0 +1,177 @@
+sil_stage raw
+
+import Builtin
+import Swift
+import SwiftShims
+
+import Foundation
+
+class Bird {
+  func favoriteBird() -> String
+  @objc func favoriteBirdObjc() -> String
+  @objc dynamic func favoriteBirdObjcAndDynamic() -> String
+  @objc deinit
+  init()
+}
+
+// main
+sil [ossa] @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  %2 = integer_literal $Builtin.Int32, 0          // user: %3
+  %3 = struct $Int32 (%2 : $Builtin.Int32)        // user: %4
+  return %3 : $Int32                              // id: %4
+} // end sil function 'main'
+
+// Bird.favoriteBird()
+sil hidden [ossa] @swift_dynamic.Bird.favoriteBird() -> Swift.String : $@convention(method) (@guaranteed Bird) -> @owned String {
+// %0 "self"                                      // user: %1
+bb0(%0 : @guaranteed $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  %2 = string_literal utf8 "Sparrow"              // user: %7
+  %3 = integer_literal $Builtin.Word, 7           // user: %7
+  %4 = integer_literal $Builtin.Int1, -1          // user: %7
+  %5 = metatype $@thin String.Type                // user: %7
+  // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+  %6 = function_ref @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %7
+  %7 = apply %6(%2, %3, %4, %5) : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %8
+  return %7 : $String                             // id: %8
+} // end sil function 'swift_dynamic.Bird.favoriteBird() -> Swift.String'
+
+// String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+sil [serialized] [always_inline] [readonly] [_semantics "string.makeUTF8"] @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String
+
+// Bird.favoriteBirdObjc()
+sil hidden [ossa] @swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String : $@convention(method) (@guaranteed Bird) -> @owned String {
+// %0 "self"                                      // user: %1
+bb0(%0 : @guaranteed $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  %2 = string_literal utf8 "Sparrow"              // user: %7
+  %3 = integer_literal $Builtin.Word, 7           // user: %7
+  %4 = integer_literal $Builtin.Int1, -1          // user: %7
+  %5 = metatype $@thin String.Type                // user: %7
+  // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+  %6 = function_ref @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %7
+  %7 = apply %6(%2, %3, %4, %5) : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %8
+  return %7 : $String                             // id: %8
+} // end sil function 'swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String'
+
+// @objc Bird.favoriteBirdObjc()
+sil hidden [thunk] [ossa] @@objc swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String : $@convention(objc_method) (Bird) -> @autoreleased NSString {
+// %0                                             // user: %1
+bb0(%0 : @unowned $Bird):
+  %1 = copy_value %0 : $Bird                      // users: %6, %2
+  %2 = begin_borrow %1 : $Bird                    // users: %5, %4
+  // function_ref Bird.favoriteBirdObjc()
+  %3 = function_ref @swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String : $@convention(method) (@guaranteed Bird) -> @owned String // user: %4
+  %4 = apply %3(%2) : $@convention(method) (@guaranteed Bird) -> @owned String // users: %11, %8
+  end_borrow %2 : $Bird                           // id: %5
+  destroy_value %1 : $Bird                        // id: %6
+  // function_ref String._bridgeToObjectiveC()
+  %7 = function_ref @(extension in Foundation):Swift.String._bridgeToObjectiveC() -> __C.NSString : $@convention(method) (@guaranteed String) -> @owned NSString // user: %9
+  %8 = begin_borrow %4 : $String                  // users: %10, %9
+  %9 = apply %7(%8) : $@convention(method) (@guaranteed String) -> @owned NSString // user: %12
+  end_borrow %8 : $String                         // id: %10
+  destroy_value %4 : $String                      // id: %11
+  return %9 : $NSString                           // id: %12
+} // end sil function '@objc swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String'
+
+// String._bridgeToObjectiveC()
+sil [_semantics "convertToObjectiveC"] @(extension in Foundation):Swift.String._bridgeToObjectiveC() -> __C.NSString : $@convention(method) (@guaranteed String) -> @owned NSString
+
+// Bird.favoriteBirdObjcAndDynamic()
+sil hidden [ossa] @swift_dynamic.Bird.favoriteBirdObjcAndDynamic() -> Swift.String : $@convention(method) (@guaranteed Bird) -> @owned String {
+// %0 "self"                                      // user: %1
+bb0(%0 : @guaranteed $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  %2 = string_literal utf8 "Sparrow"              // user: %7
+  %3 = integer_literal $Builtin.Word, 7           // user: %7
+  %4 = integer_literal $Builtin.Int1, -1          // user: %7
+  %5 = metatype $@thin String.Type                // user: %7
+  // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+  %6 = function_ref @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %7
+  %7 = apply %6(%2, %3, %4, %5) : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %8
+  return %7 : $String                             // id: %8
+} // end sil function 'swift_dynamic.Bird.favoriteBirdObjcAndDynamic() -> Swift.String'
+
+// @objc Bird.favoriteBirdObjcAndDynamic()
+sil hidden [thunk] [ossa] @@objc swift_dynamic.Bird.favoriteBirdObjcAndDynamic() -> Swift.String : $@convention(objc_method) (Bird) -> @autoreleased NSString {
+// %0                                             // user: %1
+bb0(%0 : @unowned $Bird):
+  %1 = copy_value %0 : $Bird                      // users: %6, %2
+  %2 = begin_borrow %1 : $Bird                    // users: %5, %4
+  // function_ref Bird.favoriteBirdObjcAndDynamic()
+  %3 = function_ref @swift_dynamic.Bird.favoriteBirdObjcAndDynamic() -> Swift.String : $@convention(method) (@guaranteed Bird) -> @owned String // user: %4
+  %4 = apply %3(%2) : $@convention(method) (@guaranteed Bird) -> @owned String // users: %11, %8
+  end_borrow %2 : $Bird                           // id: %5
+  destroy_value %1 : $Bird                        // id: %6
+  // function_ref String._bridgeToObjectiveC()
+  %7 = function_ref @(extension in Foundation):Swift.String._bridgeToObjectiveC() -> __C.NSString : $@convention(method) (@guaranteed String) -> @owned NSString // user: %9
+  %8 = begin_borrow %4 : $String                  // users: %10, %9
+  %9 = apply %7(%8) : $@convention(method) (@guaranteed String) -> @owned NSString // user: %12
+  end_borrow %8 : $String                         // id: %10
+  destroy_value %4 : $String                      // id: %11
+  return %9 : $NSString                           // id: %12
+} // end sil function '@objc swift_dynamic.Bird.favoriteBirdObjcAndDynamic() -> Swift.String'
+
+// Bird.deinit
+sil hidden [ossa] @swift_dynamic.Bird.deinit : $@convention(method) (@guaranteed Bird) -> @owned Builtin.NativeObject {
+// %0 "self"                                      // users: %2, %1
+bb0(%0 : @guaranteed $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $Bird to $Builtin.NativeObject // user: %3
+  %3 = unchecked_ownership_conversion %2 : $Builtin.NativeObject, @guaranteed to @owned // user: %4
+  return %3 : $Builtin.NativeObject               // id: %4
+} // end sil function 'swift_dynamic.Bird.deinit'
+
+// Bird.__deallocating_deinit
+sil hidden [ossa] @swift_dynamic.Bird.__deallocating_deinit : $@convention(method) (@owned Bird) -> () {
+// %0 "self"                                      // users: %6, %3, %1
+bb0(%0 : @owned $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  // function_ref Bird.deinit
+  %2 = function_ref @swift_dynamic.Bird.deinit : $@convention(method) (@guaranteed Bird) -> @owned Builtin.NativeObject // user: %4
+  %3 = begin_borrow %0 : $Bird                    // users: %5, %4
+  %4 = apply %2(%3) : $@convention(method) (@guaranteed Bird) -> @owned Builtin.NativeObject // user: %7
+  end_borrow %3 : $Bird                           // id: %5
+  end_lifetime %0 : $Bird                         // id: %6
+  %7 = unchecked_ref_cast %4 : $Builtin.NativeObject to $Bird // user: %8
+  dealloc_ref %7 : $Bird                          // id: %8
+  %9 = tuple ()                                   // user: %10
+  return %9 : $()                                 // id: %10
+} // end sil function 'swift_dynamic.Bird.__deallocating_deinit'
+
+// Bird.__allocating_init()
+sil hidden [exact_self_class] [ossa] @swift_dynamic.Bird.__allocating_init() -> swift_dynamic.Bird : $@convention(method) (@thick Bird.Type) -> @owned Bird {
+// %0 "$metatype"
+bb0(%0 : $@thick Bird.Type):
+  %1 = alloc_ref $Bird                            // user: %3
+  // function_ref Bird.init()
+  %2 = function_ref @swift_dynamic.Bird.init() -> swift_dynamic.Bird : $@convention(method) (@owned Bird) -> @owned Bird // user: %3
+  %3 = apply %2(%1) : $@convention(method) (@owned Bird) -> @owned Bird // user: %4
+  return %3 : $Bird                               // id: %4
+} // end sil function 'swift_dynamic.Bird.__allocating_init() -> swift_dynamic.Bird'
+
+// Bird.init()
+sil hidden [ossa] @swift_dynamic.Bird.init() -> swift_dynamic.Bird : $@convention(method) (@owned Bird) -> @owned Bird {
+// %0 "self"                                      // users: %2, %1
+bb0(%0 : @owned $Bird):
+  debug_value %0 : $Bird, let, name "self", argno 1 // id: %1
+  %2 = mark_uninitialized [rootself] %0 : $Bird   // users: %4, %3
+  %3 = copy_value %2 : $Bird                      // user: %5
+  destroy_value %2 : $Bird                        // id: %4
+  return %3 : $Bird                               // id: %5
+} // end sil function 'swift_dynamic.Bird.init() -> swift_dynamic.Bird'
+
+sil_vtable Bird {
+  #Bird.favoriteBird: (Bird) -> () -> String : @swift_dynamic.Bird.favoriteBird() -> Swift.String	// Bird.favoriteBird()
+  #Bird.favoriteBirdObjc: (Bird) -> () -> String : @swift_dynamic.Bird.favoriteBirdObjc() -> Swift.String	// Bird.favoriteBirdObjc()
+  #Bird.init!allocator: (Bird.Type) -> () -> Bird : @swift_dynamic.Bird.__allocating_init() -> swift_dynamic.Bird	// Bird.__allocating_init()
+  #Bird.deinit!deallocator: @swift_dynamic.Bird.__deallocating_deinit	// Bird.__deallocating_deinit
+}
+
+
+
+// Mappings from '#fileID' to '#filePath':
+//   'swift_dynamic/swift_dynamic.swift' => 'swift_dynamic.swift'
+
+
