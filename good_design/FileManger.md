@@ -29,7 +29,10 @@ FileManger for iOS
 
 - 发现目录下的文件（ 浅 or 深）
 
-### create or Delet
+### create or Delete
+
+- 目录 or 文件
+- 文件的属性
 
 ### Replacing
 
@@ -40,3 +43,25 @@ FileManger for iOS
 ### Accessing File Provider Services
 
 ### symbolic and Hard Links
+
+### Determining Access to Files
+
+### Getting and Setting Attributes
+
+### Getting and Comparing File Contents
+
+### Getting the Relationship Between Items
+
+### Converting File Paths to Strings
+
+### Managing the Delegate
+
+### Managing the Current Directory
+
+### Unmounting Volumes
+
+### Working with HFS File Types
+
+### Determining Resource Fork Support
+
+### Notifications
